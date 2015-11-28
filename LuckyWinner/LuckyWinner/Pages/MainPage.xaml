@@ -5,7 +5,22 @@
 									MasterBehavior="Split"
 									Title="Sorteo de Premios">
 	<MasterDetailPage.Master>
-		<ContentPage Title="Master" x:Name="Menu" />
+		<ContentPage Title="Master" x:Name="Menu">
+			<ContentView>
+				<ContentView.Content>
+					<StackLayout Orientation="Vertical">
+						<StackLayout Orientation="Horizontal">
+							<Image HorizontalOptions="Start"
+													 Source="Prize.png"
+													 HeightRequest="25" WidthRequest="25" 
+										 />
+							<Label Text="Sortear" HorizontalOptions="FillAndExpand"
+										 HorizontalTextAlignment="Start" />
+						</StackLayout>
+					</StackLayout>
+				</ContentView.Content>
+			</ContentView>
+		</ContentPage>
 	</MasterDetailPage.Master>
 	<MasterDetailPage.Detail>
 		<ContentPage x:Name="CurrentPage" />

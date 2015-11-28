@@ -39,17 +39,23 @@ namespace LuckyWinner.Views
             {
                 return;
             }
+            foreach (var item in ViewModel.Players)
+            {
+                item.IsWinner = false;
+            }
+
             var random = new Random(DateTime.Now.Millisecond);
 
-            var lucky = random.Next(0, ViewModel.Players.Count - 1);
-            var winner = ViewModel.Players.ElementAtOrDefault(lucky);
+            var lucky = random.Next(0, ViewModel.Players.Count);
+            var selectedPlayer = ViewModel.Players.ElementAtOrDefault(lucky);
 
-            if (winner != null)
+            if (selectedPlayer != null)
             {
-                ViewModel.LuckyPlayer = winner;
+                selectedPlayer.IsWinner = true;
+                ViewModel.Winner = selectedPlayer;
 
-                PlayersSelector.SelectedItem = winner;
-                PlayersSelector.ScrollTo(winner, ScrollToPosition.MakeVisible, true);
+                PlayersSelector.SelectedItem = selectedPlayer;
+                PlayersSelector.ScrollTo(selectedPlayer, ScrollToPosition.MakeVisible, true);
             }
         }
 

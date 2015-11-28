@@ -28,7 +28,6 @@
         public string Title { get; set; }
 
         private ICommand _playCommand;
-        private PlayerViewModel _luckyPlayer;
 
         public ICommand PlayCommand
         {
@@ -36,13 +35,14 @@
             set { _playCommand = value; }
         }
 
-        public PlayerViewModel LuckyPlayer
+        private PlayerViewModel _winner;
+        public PlayerViewModel Winner
         {
-            get { return _luckyPlayer; }
+            get { return _winner; }
             set
             {
-                _luckyPlayer = value;
-                OnPropertyChanged("LuckyPlayer");
+                _winner = value;
+                OnPropertyChanged("Winner");
             }
         }
     }

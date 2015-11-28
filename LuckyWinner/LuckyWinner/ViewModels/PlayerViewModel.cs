@@ -16,10 +16,22 @@
         }
 
         private ICommand _deleteCommand;
+        private bool _isWinner;
+
         public ICommand DeleteCommand
         {
             get { return _deleteCommand; }
             set { _deleteCommand = value; }
+        }
+
+        public bool IsWinner
+        {
+            get { return _isWinner; }
+            set
+            {
+                _isWinner = value;
+                OnPropertyChanged("IsWinner");
+            }
         }
     }
 }
