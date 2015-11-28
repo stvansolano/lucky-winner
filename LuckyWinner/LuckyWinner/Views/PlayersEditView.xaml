@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LuckyWinner.Views.PlayersEditView"
+						 x:Name="Root">
+	<ContentView.Content>
+		<Grid BindingContext="{Binding Source={x:Reference Name=Root}, Path=ViewModel}"
+					Padding="0,10,0,0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<Button Grid.Row="0"
+							Command="{Binding Path=PlayCommand}" 
+							HeightRequest="100"
+							Text="Sortear" 
+							/>
+			
+			<StackLayout Grid.Row="1"
+									 Orientation="Vertical">
+				<Label Text="Nombre:" 
+							 />
+				<Entry x:Name="NewPlayerEntry"
+							 Text="{Binding Path=NewPlayerName}"
+							 />
+			</StackLayout>
+			
+			<Label Grid.Row="2"
+						 BackgroundColor="Navy"
+						 FontSize="18" TextColor="White"
+						 HeightRequest="50"
+						 Text="Participantes"
+						 />
+			<ListView x:Name="PlayersSelector" 
+								Grid.Row="3"
+								ItemsSource="{Binding Path=Players}"
+								SeparatorColor="Gray"
+								SelectedItem="{Binding Path=LuckyPlayer}">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<ViewCell.ContextActions>
+								<ToolbarItem Command="{Binding DeleteCommand}" Text="Borrar" />
+							</ViewCell.ContextActions>
+							<Grid>
+								<Label HorizontalTextAlignment="Start"
+											 Text="{Binding Path=PlayerName}" />
+								<Button HorizontalOptions="End" 
+												Command="{Binding Path=DeleteCommand}"
+												Text="x" />
+							</Grid>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</Grid>
+	</ContentView.Content>
+</ContentView>
