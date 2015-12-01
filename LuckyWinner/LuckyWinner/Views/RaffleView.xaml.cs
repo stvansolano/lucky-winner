@@ -1,18 +1,17 @@
-﻿using System.Linq;
-
-namespace LuckyWinner.Views
+﻿namespace LuckyWinner.Views
 {
     using System;
     using Shared.ViewModels;
     using Xamarin.Forms;
+    using System.Linq;
 
-    public partial class PlayersEditView
-	{
-        public PlayersEditView ()
+    public partial class RaffleView
+    {
+        public RaffleView()
 		{
             try
             {
-                ViewModel = new PlayerEditViewModel();
+                ViewModel = new RaffleViewModel();
                 ViewModel.PlayCommand = new Command(() => Play());
 
                 InitializeComponent();
@@ -73,8 +72,8 @@ namespace LuckyWinner.Views
             item.DeleteCommand = new Command(() => ViewModel.Players.Remove(item));
         }
 
-        private PlayerEditViewModel _viewModel;
-        public PlayerEditViewModel ViewModel
+        private RaffleViewModel _viewModel;
+        public RaffleViewModel ViewModel
 	    {
 	        get { return _viewModel; }
 	        set { _viewModel = value; }

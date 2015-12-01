@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LuckyWinner.Views.PlayersEditView"
+             x:Class="LuckyWinner.Views.RaffleView"
 						 x:Name="Root">
 	<ContentView.Content>
 		<Grid BindingContext="{Binding Source={x:Reference Name=Root}, Path=ViewModel}"
@@ -12,13 +12,8 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<Button Grid.Row="0"
-							Command="{Binding Path=PlayCommand}" 
-							HeightRequest="100"
-							Text="Sortear" 
-							/>
 			
-			<StackLayout Grid.Row="1"
+			<StackLayout Grid.Row="0"
 									 Orientation="Vertical">
 				<Label Text="Nombre:" 
 							 />
@@ -27,7 +22,7 @@
 							 />
 			</StackLayout>
 			
-			<StackLayout Grid.Row="2"
+			<StackLayout Grid.Row="1"
 									 BackgroundColor="Navy"
 									 Orientation="Horizontal">
 				<Image HorizontalOptions="Start"
@@ -41,7 +36,7 @@
 						 />
 			</StackLayout>
 			<Grid Padding="5"
-						Grid.Row="3">
+						Grid.Row="2">
 					<ListView x:Name="PlayersSelector" 
 										ItemsSource="{Binding Path=Players}"
 										SeparatorColor="Gray"
@@ -79,6 +74,12 @@
 					</ListView.ItemTemplate>
 				</ListView>
 			</Grid>
+
+			<Button Grid.Row="3"
+							Command="{Binding Path=PlayCommand}"
+							HeightRequest="100"
+							Text="Sortear"
+							/>
 		</Grid>
 	</ContentView.Content>
 </ContentView>

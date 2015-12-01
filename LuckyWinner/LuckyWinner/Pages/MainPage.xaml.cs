@@ -1,8 +1,7 @@
-﻿using LuckyWinner.Views;
-
-namespace LuckyWinner.Pages
+﻿namespace LuckyWinner.Pages
 {
     using System;
+    using Views;
 
     public partial class MainPage
 	{

@@ -12,7 +12,7 @@
 			InitializeComponent ();
 
             var options = new ObservableCollection<View>();
-            options.Add(new PlayersEditView());
+            options.Add(new RaffleView());
 
 		    MenuOptions = options;
 

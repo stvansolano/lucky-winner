@@ -4,15 +4,15 @@
     using System.Collections.ObjectModel;
     using System.Windows.Input;
 
-    public class PlayerEditViewModel : ViewModelBase
+    public class RaffleViewModel : ViewModelBase
     {
-        public PlayerEditViewModel()
+        public RaffleViewModel()
         {
             Title = "Sorteo";
 
             Players = new ObservableCollection<PlayerViewModel>();
 
-            FillPlayers(new string [] {
+            FillPlayers(new [] {
                 "Carlos Argüello",
                 "Marco Antonio Gómez",
                 "Daniel Lacayo",
@@ -34,6 +34,8 @@
                 "Stuart Sanchez",
                 "Kenneth P. Barquero",
                 "Kimberly",
+                "Heizel Martínez Garro",
+                "Elián Acuña Fernández",
                 "Esteban (estsantre96@hotmail.com)",
 
                 "Deibyd",

@@ -14,11 +14,11 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlayerEditViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RaffleViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlayerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Views\PlayersEditView.xaml.cs">
-      <DependentUpon>PlayersEditView.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RaffleView.xaml.cs">
+      <DependentUpon>RaffleView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\SideMenuView.xaml.cs">
@@ -36,7 +36,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\PlayersEditView.xaml">
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\RaffleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
