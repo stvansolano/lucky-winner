@@ -53,7 +53,6 @@
                 selectedPlayer.IsWinner = true;
                 ViewModel.Winner = selectedPlayer;
 
-                PlayersSelector.SelectedItem = selectedPlayer;
                 PlayersSelector.ScrollTo(selectedPlayer, ScrollToPosition.MakeVisible, true);
             }
         }

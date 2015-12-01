@@ -40,7 +40,7 @@
 					<ListView x:Name="PlayersSelector" 
 										ItemsSource="{Binding Path=Players}"
 										SeparatorColor="Gray"
-										SelectedItem="{Binding Path=Winner}">
+										SelectedItem="{Binding Path=Winner, Mode=TwoWay}">
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<ViewCell>
