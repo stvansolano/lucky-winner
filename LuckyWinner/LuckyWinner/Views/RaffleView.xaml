@@ -4,17 +4,16 @@
              x:Class="LuckyWinner.Views.RaffleView"
 						 x:Name="Root">
 	<ContentView.Content>
-		<Grid BindingContext="{Binding Source={x:Reference Name=Root}, Path=ViewModel}"
-					Padding="0,10,0,0">
+		<Grid BindingContext="{Binding Source={x:Reference Name=Root}, Path=ViewModel}">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			
+				 <RowDefinition Height="Auto" />
+				 <RowDefinition Height="Auto" />
+				 <RowDefinition Height="Auto" />
+				 <RowDefinition Height="Auto" />
+				 <RowDefinition Height="Auto" />
+			 </Grid.RowDefinitions>
 			<StackLayout Grid.Row="0"
-									 Orientation="Vertical">
+						 Orientation="Vertical">
 				<Label Text="Nombre:" 
 							 />
 				<Entry x:Name="NewPlayerEntry"
@@ -23,8 +22,8 @@
 			</StackLayout>
 			
 			<StackLayout Grid.Row="1"
-									 BackgroundColor="Navy"
-									 Orientation="Horizontal">
+						 BackgroundColor="Navy"
+						 Orientation="Horizontal">
 				<Image HorizontalOptions="Start"
 							 Source="Prize.png"
 							 HeightRequest="25" WidthRequest="25" />
@@ -36,8 +35,8 @@
 						 />
 			</StackLayout>
 			<Grid Padding="5"
-						Grid.Row="2">
-					<ListView x:Name="PlayersSelector" 
+				  Grid.Row="2">
+				  	<ListView x:Name="PlayersSelector" 
 										ItemsSource="{Binding Path=Players}"
 										SeparatorColor="Gray"
 										SelectedItem="{Binding Path=Winner, Mode=TwoWay}">
@@ -74,12 +73,14 @@
 					</ListView.ItemTemplate>
 				</ListView>
 			</Grid>
-
-			<Button Grid.Row="3"
-							Command="{Binding Path=PlayCommand}"
-							HeightRequest="100"
-							Text="Sortear"
-							/>
+			<Grid Padding="2" Grid.Row="3">
+				<Button BackgroundColor="{StaticResource PrimaryColor}"
+						TextColor="{StaticResource PrimaryTextColor}"
+						Command="{Binding Path=PlayCommand}"
+						HeightRequest="60"
+						Text="Sortear"
+						/>			
+			</Grid>
 		</Grid>
 	</ContentView.Content>
 </ContentView>

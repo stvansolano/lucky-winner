@@ -20,6 +20,8 @@
                 {
                     ViewModel.Players.Add(GetNewPlayer(NewPlayerEntry.Text));
                     NewPlayerEntry.Text = string.Empty;
+
+					NewPlayerEntry.Focus();
                 };
 
                 foreach (var item in ViewModel.Players)
@@ -53,7 +55,7 @@
                 selectedPlayer.IsWinner = true;
                 ViewModel.Winner = selectedPlayer;
 
-                PlayersSelector.ScrollTo(selectedPlayer, ScrollToPosition.MakeVisible, true);
+				PlayersSelector.ScrollTo(selectedPlayer, ScrollToPosition.Center, true);
             }
         }
 

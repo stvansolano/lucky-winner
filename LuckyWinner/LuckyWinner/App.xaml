@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+			 x:Class="LuckyWinner.App"
+			 xmlns:local="clr-namespace:LuckyWinner.Pages">
+	<Application.Resources>
+	<ResourceDictionary>
+		<Color x:Key="PrimaryColor">#2196F3</Color>
+		<Color x:Key="PrimaryTextColor">White</Color>
+
+	 	<Style x:Key="NavigationStyle" TargetType="NavigationPage">	
+			<Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
+			<Setter Property="BarTextColor" Value="White" />
+		</Style>
+	</ResourceDictionary>
+	</Application.Resources>
+</Application>
