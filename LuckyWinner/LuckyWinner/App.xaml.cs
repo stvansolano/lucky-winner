@@ -1,16 +1,16 @@
-﻿namespace LuckyWinner
+﻿[assembly: Xamarin.Forms.Xaml.XamlCompilation(Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
+namespace LuckyWinner
 {
-	using Pages;
-	using Xamarin.Forms;
+    using Pages;
+    using Xamarin.Forms;
 
-	public partial class App
+    public partial class App
 	{
 		public App ()
 		{
 			InitializeComponent ();
 
-			var style = Resources["NavigationStyle"] as Style;
-			MainPage = new NavigationPage(new MainPage ()) { Style = style };
+			MainPage = new NavigationPage(new MainPage ());
 		}
 
 		protected override void OnStart ()

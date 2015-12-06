@@ -10,7 +10,6 @@
 				 <RowDefinition Height="Auto" />
 				 <RowDefinition Height="Auto" />
 				 <RowDefinition Height="Auto" />
-				 <RowDefinition Height="Auto" />
 			 </Grid.RowDefinitions>
 			<StackLayout Grid.Row="0"
 						 Orientation="Vertical">
@@ -34,8 +33,7 @@
 							 Text="Participantes"
 						 />
 			</StackLayout>
-			<Grid Padding="5"
-				  Grid.Row="2">
+			<Grid Grid.Row="2">
 				  	<ListView x:Name="PlayersSelector" 
 										ItemsSource="{Binding Path=Players}"
 										SeparatorColor="Gray"
@@ -77,7 +75,7 @@
 				<Button BackgroundColor="{StaticResource PrimaryColor}"
 						TextColor="{StaticResource PrimaryTextColor}"
 						Command="{Binding Path=PlayCommand}"
-						HeightRequest="60"
+						HeightRequest="80"
 						Text="Sortear"
 						/>			
 			</Grid>

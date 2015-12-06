@@ -2,7 +2,8 @@
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
 									xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 									x:Class="LuckyWinner.Pages.MainPage"
-									Title="Sorteo de Premios">
+									Title="Sorteo del ganador"
+									Padding="2">
 	<MasterDetailPage.Master>
 		<ContentPage Title="Menu">
 			<ContentView x:Name="Menu" />
