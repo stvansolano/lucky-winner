@@ -1,3 +1,5 @@
+#Xamarin 4 has everything you need to create great mobile apps!
+
 Let's take a look into some of the features and enhancements included in Xamarin 4.0 for developing cross-platform applications including Android, iOS and UWP (Universal Windows Apps). 
 
 ## Introducing Xamarin Forms 2.0
