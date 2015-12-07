@@ -6,6 +6,8 @@ This time I made a simple app called *"Lucky Winner"* for randomly select a pers
 
 Here are some screenshots of the app running on different platforms:
 
+![http://stvansolano.github.io/2015/12/01/Xamarin4-has-everything-you-need-to-create-great-mobile-apps screenshot]
+
 You can download the full source for this app from my GitHub repository [here](https://github.com/stvansolano/lucky-winner).
 
 ## Developing a Xamarin.Forms app from scratch
@@ -26,5 +28,7 @@ Another great feature for Xamarin for Android is ability to easily incorporate *
 
 ## Additional resources & links.
 [Introducing Xamarin 4](https://blog.xamarin.com/introducing-xamarin-4/)
+
 [Adding Material Design to Xamarin Apps](https://blog.xamarin.com/introduction-to-android-material-design/)
+
 [Lucky Winner source code](https://github.com/stvansolano/lucky-winner)
