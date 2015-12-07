@@ -14,13 +14,17 @@ By installing Xamarin Platform and geting a valid/trial license you will be able
 
 So let's pick the Xamarin.Forms template from the available list inside Visual Studio:
 
+![setup](http://stvansolano.github.io/2015/12/01/Xamarin4-has-everything-you-need-to-create-great-mobile-apps/setup.png)
+
 By doing so will get:
 - A Xamarin.Forms project for sharing XAML/C# code between platforms
 - Android project referencing Xamarin.Forms
 - iOS project
 - UWP project
 
-If you are familiar with MVVM, XAML and C# it will be quite familiar to easily include Pages, ViewModels, Views in your project just like the following.
+If you are familiar with MVVM, XAML and C# it will be quite familiar to easily include Pages, ViewModels, Views in your project just like the following:
+
+![structure](http://stvansolano.github.io/2015/12/01/Xamarin4-has-everything-you-need-to-create-great-mobile-apps/structure.png)
 
 ## Bring Material Design to your Android application 
 Another great feature for Xamarin for Android is ability to easily incorporate *Material Design* into your Android apps. This can be done by adding the [Support Design Library](https://components.xamarin.com/gettingstarted/xamandroidsupportdesign) available as a package from NuGet.
