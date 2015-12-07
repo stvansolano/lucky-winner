@@ -5,7 +5,7 @@ Let's take a look into some of the features and enhancements included in Xamarin
 This time I made a simple app called *"Lucky Winner"* for randomly select a person from a list of participants using the commonly used *System.Random* class for random numbers just like any other .Net program. 
 
 Here are some screenshots of the app running on different platforms:
-![screenshot](http://stvansolano.github.io/2015/12/01/Xamarin4-has-everything-you-need-to-create-great-mobile-apps)
+![screenshot](http://stvansolano.github.io/2015/12/01/Xamarin4-has-everything-you-need-to-create-great-mobile-apps/preview.png)
 
 You can download the full source for this app from my GitHub repository [here](https://github.com/stvansolano/lucky-winner).
 
