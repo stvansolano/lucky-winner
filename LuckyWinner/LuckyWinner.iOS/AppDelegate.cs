@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
-using UIKit;
-
-namespace LuckyWinner.iOS
+﻿namespace LuckyWinner.iOS
 {
-	// The UIApplicationDelegate for the application. This class is responsible for launching the 
-	// User Interface of the application, as well as listening (and optionally responding) to 
-	// application events from iOS.
-	[Register("AppDelegate")]
+    using Foundation;
+    using UIKit;
+    using Xamarin.Forms;
+
+    // The UIApplicationDelegate for the application. This class is responsible for launching the 
+    // User Interface of the application, as well as listening (and optionally responding) to 
+    // application events from iOS.
+    [Register("AppDelegate")]
 	public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
 	{
 		//
@@ -22,8 +19,8 @@ namespace LuckyWinner.iOS
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			global::Xamarin.Forms.Forms.Init ();
-			LoadApplication (new LuckyWinner.App ());
+			Forms.Init ();
+			LoadApplication (new App ());
 
 			return base.FinishedLaunching (app, options);
 		}

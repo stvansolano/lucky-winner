@@ -13,6 +13,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Services\NetworkService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\GroupViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\RaffleViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\PlayerViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ViewModelBase.cs" />

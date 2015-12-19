@@ -2,6 +2,7 @@
 {
     using System;
     using Views;
+    using System.Diagnostics;
 
     public partial class MainPage
 	{
@@ -15,11 +16,12 @@
                 Menu.Content = sideMenu;
 
                 CurrentPage.Content = sideMenu.CurrentView;
-		    }
+            }
             catch (Exception ex)
 		    {
-		        throw;
-		    }
-		}
+                Debug.WriteLine(ex);
+                throw;
+            }
+        }
 	}
 }

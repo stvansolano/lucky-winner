@@ -10,68 +10,104 @@
 				 <RowDefinition Height="Auto" />
 				 <RowDefinition Height="Auto" />
 				 <RowDefinition Height="Auto" />
-			 </Grid.RowDefinitions>
-			<StackLayout Grid.Row="0"
-						 Orientation="Vertical">
-				<Label Text="Nombre:" 
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid Grid.Row="0"
+						Padding="10,10,10,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Label Grid.Column="0"
+							 Text="Nombre:" 
+							 HorizontalOptions="Start"
+							 VerticalTextAlignment="Center"
 							 />
 				<Entry x:Name="NewPlayerEntry"
+							 Grid.Column="1"
+							 HorizontalOptions="FillAndExpand"
 							 Text="{Binding Path=NewPlayerName}"
 							 />
-			</StackLayout>
+			</Grid>
 			
 			<StackLayout Grid.Row="1"
-						 BackgroundColor="Navy"
-						 Orientation="Horizontal">
+									 BackgroundColor="Navy"
+									 Orientation="Horizontal"
+									 Padding="0,10,0,0">
+				<StackLayout.Resources>
+					<ResourceDictionary>
+						<Style TargetType="Label">
+							<Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
+							<Setter Property="FontSize" Value="{StaticResource PrimaryTextSize}" />
+						</Style>
+					</ResourceDictionary>
+				</StackLayout.Resources>
 				<Image HorizontalOptions="Start"
 							 Source="Prize.png"
 							 HeightRequest="25" WidthRequest="25" />
 				<Label HorizontalOptions="FillAndExpand"
 							 VerticalTextAlignment="Center"
-							 FontSize="18" TextColor="White"
 							 HeightRequest="40"
 							 Text="Participantes"
 						 />
 			</StackLayout>
 			<Grid Grid.Row="2">
-				  	<ListView x:Name="PlayersSelector" 
-										ItemsSource="{Binding Path=Players}"
-										SeparatorColor="Gray"
-										SelectedItem="{Binding Path=Winner, Mode=TwoWay}">
-					<ListView.ItemTemplate>
-						<DataTemplate>
-							<ViewCell>
-								<ViewCell.ContextActions>
-									<ToolbarItem Command="{Binding DeleteCommand}" Text="Borrar" />
-								</ViewCell.ContextActions>
-								<Grid>
-									<StackLayout Orientation="Horizontal"
-															 HorizontalOptions="Start">
-										<Image IsVisible="{Binding Path=IsWinner}"
-													 Source="Prize.png"
-													 HeightRequest="25" WidthRequest="25" />
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
 
-										<Label Text="¡GANADOR!"
-													  IsVisible="{Binding Path=IsWinner}"
-													 TextColor="Red"
-													 FontAttributes="Bold"
-													 VerticalTextAlignment="Center"
-													 />
-										
-										<Label Text="{Binding Path=PlayerName}"
-													 VerticalTextAlignment="Center"
-													 />
-									</StackLayout>
-									<Button HorizontalOptions="End" 
-													Command="{Binding Path=DeleteCommand}"
-													Text="x" />
-								</Grid>
-							</ViewCell>
-						</DataTemplate>
-					</ListView.ItemTemplate>
-				</ListView>
+				<Label Grid.Column="0"
+							 Text="Lista actual:"
+							 VerticalTextAlignment="Center"
+						 />
+				<Picker x:Name="GroupPicker"
+								Grid.Column="1"
+								SelectedIndex="0"
+								Title="{Binding Path=SelectedGroupTitle}"
+							/>
 			</Grid>
-			<Grid Padding="2" Grid.Row="3">
+			<Grid Grid.Row="3">
+				<Grid Padding="10,5,0,0">
+						<ListView x:Name="PlayersSelector"
+											ItemsSource="{Binding Path=Players}"
+											SeparatorColor="Gray"
+											SelectedItem="{Binding Path=Winner, Mode=TwoWay}">
+						<ListView.ItemTemplate>
+							<DataTemplate>
+								<ViewCell>
+									<ViewCell.ContextActions>
+										<ToolbarItem Command="{Binding DeleteCommand}" Text="Borrar" />
+									</ViewCell.ContextActions>
+									<Grid>
+										<StackLayout Orientation="Horizontal"
+																 HorizontalOptions="Start">
+											<Image IsVisible="{Binding Path=IsWinner}"
+														 Source="Prize.png"
+														 HeightRequest="25" WidthRequest="25" />
+
+											<Label Text="¡GANADOR!"
+															IsVisible="{Binding Path=IsWinner}"
+														 TextColor="Red"
+														 FontAttributes="Bold"
+														 VerticalTextAlignment="Center"
+														 />
+										
+											<Label Text="{Binding Path=PlayerName}"
+														 VerticalTextAlignment="Center"
+														 />
+										</StackLayout>
+										<Button HorizontalOptions="End" 
+														Command="{Binding Path=DeleteCommand}"
+														Text="x" />
+									</Grid>
+								</ViewCell>
+							</DataTemplate>
+						</ListView.ItemTemplate>
+					</ListView>
+				</Grid>
+			</Grid>
+			<Grid Padding="2" Grid.Row="4">
 				<Button BackgroundColor="{StaticResource PrimaryColor}"
 						TextColor="{StaticResource PrimaryTextColor}"
 						Command="{Binding Path=PlayCommand}"

@@ -1,23 +1,48 @@
-﻿namespace LuckyWinner.Droid
+﻿using System;
+using Xamarin.Forms;
+
+namespace LuckyWinner.Droid
 {
     using Android.App;
     using Android.Content.PM;
     using Android.OS;
     using Xamarin.Forms.Platform.Android;
 
-    [Activity (Label = "LuckyWinner", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Theme = "@style/MyTheme")]
+    [Activity (Label = "Lucky Winner", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Theme = "@style/MyTheme")]
 	public class MainActivity : /*FormsApplicationActivity*/FormsAppCompatActivity
     {
 		protected override void OnCreate (Bundle bundle)
 		{
-			base.OnCreate (bundle);
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                try
+                {
+                    var ex = ((Exception)e.ExceptionObject).GetBaseException();
+                    //InsightsManager.Report(ex, Xamarin.Insights.Severity.Critical);
 
-			global::Xamarin.Forms.Forms.Init (this, bundle);
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            };
 
-            ToolbarResource = Resource.Layout.toolbar;
-            TabLayoutResource = Resource.Layout.tabs;
+		    try
+		    {
+                base.OnCreate(bundle);
 
-            LoadApplication (new App ());
+                Forms.Init(this, bundle);
+
+                ToolbarResource = Resource.Layout.toolbar;
+                TabLayoutResource = Resource.Layout.tabs;
+
+                LoadApplication(new App());
+            }
+		    catch (Exception ex)
+		    {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
 		}
 	}
 }

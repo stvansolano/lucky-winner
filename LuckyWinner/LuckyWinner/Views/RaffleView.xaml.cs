@@ -4,6 +4,8 @@
     using Shared.ViewModels;
     using Xamarin.Forms;
     using System.Linq;
+    using Shared;
+    using System.Diagnostics;
 
     public partial class RaffleView
     {
@@ -11,7 +13,7 @@
 		{
             try
             {
-                ViewModel = new RaffleViewModel();
+                ViewModel = new RaffleViewModel(new NetworkService());
                 ViewModel.PlayCommand = new Command(() => Play());
 
                 InitializeComponent();
@@ -28,11 +30,14 @@
                 {
                     SetCommands(item);
                 }
+
+                FillPicker();
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex);
             }
-		}
+        }
 
         private void Play()
         {
@@ -84,5 +89,20 @@
         {
             return ViewModel.Title;
         }
-	}
+
+        public void FillPicker()
+        {
+            var viewModel = ViewModel;
+
+            foreach (var item in ViewModel.GroupNames)
+            {
+                GroupPicker.Items.Add(item);
+            }
+
+            GroupPicker.SelectedIndexChanged += (sender, args) =>
+            {
+                ViewModel.SelectedGroup = viewModel.Groups.ElementAtOrDefault(GroupPicker.SelectedIndex);
+            };
+        }
+    }
 }
