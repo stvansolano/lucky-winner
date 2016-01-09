@@ -11,7 +11,7 @@
             set
             {
                 _playerName = value;
-                OnPropertyChanged("PlayerName");
+                OnPropertyChanged();
             }
         }
 
@@ -30,7 +30,7 @@
             set
             {
                 _isWinner = value;
-                OnPropertyChanged("IsWinner");
+                OnPropertyChanged();
             }
         }
     }

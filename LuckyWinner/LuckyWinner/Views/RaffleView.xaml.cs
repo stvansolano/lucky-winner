@@ -20,16 +20,11 @@
 
                 NewPlayerEntry.Completed += (sender, args) =>
                 {
-                    ViewModel.Players.Add(GetNewPlayer(NewPlayerEntry.Text));
+                    ViewModel.AddPlayer(NewPlayerEntry.Text);
                     NewPlayerEntry.Text = string.Empty;
 
 					NewPlayerEntry.Focus();
                 };
-
-                foreach (var item in ViewModel.Players)
-                {
-                    SetCommands(item);
-                }
 
                 FillPicker();
             }
@@ -41,7 +36,7 @@
 
         private void Play()
         {
-            if (ViewModel.Players.Count <= 1)
+            if (ViewModel.Players.Any() == false)
             {
                 return;
             }
@@ -52,7 +47,7 @@
 
             var random = new Random(DateTime.Now.Millisecond);
 
-            var lucky = random.Next(0, ViewModel.Players.Count);
+            var lucky = random.Next(0, ViewModel.Players.Count());
             var selectedPlayer = ViewModel.Players.ElementAtOrDefault(lucky);
 
             if (selectedPlayer != null)
@@ -62,20 +57,6 @@
 
 				PlayersSelector.ScrollTo(selectedPlayer, ScrollToPosition.Center, true);
             }
-        }
-
-        private PlayerViewModel GetNewPlayer(string text)
-        {
-            var result = new PlayerViewModel {PlayerName = text };
-
-            SetCommands(result);
-
-            return result;
-        }
-
-        private void SetCommands(PlayerViewModel item)
-        {
-            item.DeleteCommand = new Command(() => ViewModel.Players.Remove(item));
         }
 
         private RaffleViewModel _viewModel;

@@ -1,4 +1,6 @@
-﻿namespace Shared.ViewModels
+﻿using Xamarin.Forms;
+
+namespace Shared.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -12,7 +14,7 @@
             Title = "Sorteo";
             Network = network;
 
-            Players = new ObservableCollection<PlayerViewModel>();
+            _players = new ObservableCollection<PlayerViewModel>();
             Groups = new ObservableCollection<GroupViewModel>(
                 new[]
                 {
@@ -26,7 +28,7 @@
 
         private void FillPlayers()
         {
-            Players.Clear();
+            _players.Clear();
 
             if (SelectedGroup == null)
             {
@@ -34,11 +36,23 @@
             }
             foreach (var player in SelectedGroup.Contacts)
             {
-                Players.Add(new PlayerViewModel {PlayerName = player.Name});
+                var item = new PlayerViewModel {PlayerName = player.Name};
+
+                SetCommands(item);
+
+                _players.Add(item);
             }
         }
 
-        public ICollection<PlayerViewModel> Players { get; set; }
+        private void SetCommands(PlayerViewModel item)
+        {
+            item.DeleteCommand = new Command(() => _players.Remove(item));
+        }
+
+        public IEnumerable<PlayerViewModel> Players
+        {
+            get { return _players; }
+        }
 
         private string _newPlayerName;
         public string NewPlayerName
@@ -69,6 +83,7 @@
         }
 
         private GroupViewModel _selectedGroup;
+        private ObservableCollection<PlayerViewModel> _players;
 
         public GroupViewModel SelectedGroup
         {
@@ -78,7 +93,7 @@
                 _selectedGroup = value;
 
                 FillPlayers();
-                OnPropertyChanged("SelectedGroup");
+                OnPropertyChanged();
                 OnPropertyChanged("SelectedGroupTitle");
             }
         }
@@ -95,6 +110,20 @@
         public IList<string> GroupNames
         {
             get { return Groups.Select(item => item.GroupName).ToList(); }
+        }
+
+        private PlayerViewModel GetNewPlayer(string text)
+        {
+            var result = new PlayerViewModel { PlayerName = text };
+
+            SetCommands(result);
+
+            return result;
+        }
+
+        public void AddPlayer(string fromText)
+        {
+            _players.Add(GetNewPlayer(fromText));
         }
 
         private GroupViewModel GetLocalGroup()
