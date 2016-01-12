@@ -7,9 +7,9 @@ namespace Shared.ViewModels
     using System.Windows.Input;
     using System.Linq;
 
-    public class RaffleViewModel : ViewModelBase
+    public class GameViewModel : ViewModelBase
     {
-        public RaffleViewModel(NetworkService network)
+        public GameViewModel(NetworkService network)
         {
             Title = "Sorteo";
             Network = network;

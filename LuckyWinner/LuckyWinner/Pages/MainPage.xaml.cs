@@ -3,6 +3,7 @@
     using System;
     using Views;
     using System.Diagnostics;
+	using Xamarin.Forms;
 
     public partial class MainPage
 	{
@@ -12,10 +13,7 @@
 		    {
                 InitializeComponent();
 
-		        var sideMenu = new SideMenuView();
-                Menu.Content = sideMenu;
-
-                CurrentPage.Content = sideMenu.CurrentView;
+				Detail = new NavigationPage(new ContentPage { Title = Title, Content = new GameView()});
             }
             catch (Exception ex)
 		    {

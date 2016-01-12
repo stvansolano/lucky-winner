@@ -7,13 +7,13 @@
     using Shared;
     using System.Diagnostics;
 
-    public partial class RaffleView
+    public partial class GameView
     {
-        public RaffleView()
+        public GameView()
 		{
             try
             {
-                ViewModel = new RaffleViewModel(new NetworkService());
+                ViewModel = new GameViewModel(new NetworkService());
                 ViewModel.PlayCommand = new Command(() => Play());
 
                 InitializeComponent();
@@ -59,8 +59,8 @@
             }
         }
 
-        private RaffleViewModel _viewModel;
-        public RaffleViewModel ViewModel
+        private GameViewModel _viewModel;
+        public GameViewModel ViewModel
 	    {
 	        get { return _viewModel; }
 	        set { _viewModel = value; }
