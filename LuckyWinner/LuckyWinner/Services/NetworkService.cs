@@ -1,6 +1,6 @@
 ﻿namespace Shared
 {
-    //using Plugin.Connectivity;
+	using Plugin.Connectivity;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
@@ -10,12 +10,12 @@
 
         public NetworkService()
         {
-            /*CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
+            CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
             {
                 IsConnected = args.IsConnected;
             };
 
-            IsConnected = CrossConnectivity.Current.IsConnected;*/
+            IsConnected = CrossConnectivity.Current.IsConnected;
         }
 
         public bool IsConnected
