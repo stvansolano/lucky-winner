@@ -131,71 +131,48 @@ namespace Shared.ViewModels
             return new GroupViewModel
             {
                 GroupName = "Local",
-                Contacts = new[]
-                {
-                    new ContactViewModel {Name = "Juan Carlos"},
-                    new ContactViewModel {Name = "Jairo Esquivel"},
-                    new ContactViewModel {Name = "Stuart Sanchez"},
-                    new ContactViewModel {Name = "Esteban"},
-                    new ContactViewModel {Name = "Kimberly"},
-                    new ContactViewModel {Name = "Heizel Martínez Garro"},
-                    new ContactViewModel {Name = "Elián Acuña Fernández"},
-                }
+				Contacts = FromPlayerNames(new [] {
+					"Juan Carlos",
+					"Jairo Esquivel",
+					"Stuart Sanchez",
+					"Esteban",
+					"Kimberly",
+					"Heizel Martínez Garro",
+					"Elián Acuña Fernández"
+				})
             };
         }
+
+		private ContactViewModel[] FromPlayerNames(string[] names) {
+			return names.Select (item => new ContactViewModel { Name = item}).ToArray();
+		}
 
         private GroupViewModel GetMeetupGroup()
         {
             return new GroupViewModel
             {
                 GroupName = "Meetup",
-                Contacts = new[]
-                {
-                    new ContactViewModel {Name = "Carlos Argüello"},
-                    new ContactViewModel {Name = "Marco Antonio Gómez"},
-                    new ContactViewModel {Name = "Daniel Lacayo"},
-                    new ContactViewModel {Name = "Carlos Cervantes Gutierrez"},
-                    new ContactViewModel {Name = "Geraldin Torres"},
-                    new ContactViewModel {Name = "Xiannie Hylton"},
-                    new ContactViewModel {Name = "May Valverde"},
-                    new ContactViewModel {Name = "Richard Fernández"},
-                    new ContactViewModel {Name = "Herber Madrigal"},
-                    new ContactViewModel {Name = "Oscar Arroyo Fuentes"},
-                    new ContactViewModel {Name = "Aaron Cedeño Martí­nez"},
-                    new ContactViewModel {Name = "Andrés Carvajal"},
-
-                    new ContactViewModel {Name = "Andrey Alfaro"},
-                    new ContactViewModel {Name = "JC"},
-                    new ContactViewModel {Name = "Alejandra Herrera P"},
-                    new ContactViewModel {Name = "Cesar Guillen Oreamuno"},
-                    new ContactViewModel {Name = "Jairo Esquivel"},
-                    new ContactViewModel {Name = "Stuart Sanchez"},
-                    new ContactViewModel {Name = "Kenneth P. Barquero"},
-                    new ContactViewModel {Name = "Kimberly"},
-                    new ContactViewModel {Name = "Heizel Martínez Garro"},
-                    new ContactViewModel {Name = "Elián Acuña Fernández"},
-                    new ContactViewModel {Name = "Esteban (estsantre96@hotmail.com)"},
-
-                    new ContactViewModel {Name = "Deibyd"},
-                    new ContactViewModel {Name = "Esteban Hernandez"},
-                    new ContactViewModel {Name = "Javier Nuñez"},
-                    new ContactViewModel {Name = "Jose Alberto Gonzalez Sanchez"},
-                    new ContactViewModel {Name = "Keneth Murillo"},
-                    new ContactViewModel {Name = "Pablo Duran"},
-                    new ContactViewModel {Name = "Pablo Salas"},
-                    new ContactViewModel {Name = "Roberto Chacón"},
-                    new ContactViewModel {Name = "Steven"},
-                    new ContactViewModel {Name = "Thomas Edward Lee"},
-                    new ContactViewModel {Name = "Sergio Rios"},
-                    new ContactViewModel {Name = "Yoselin Vega"},
-                    new ContactViewModel {Name = "William Porras Quiros"},
-                    new ContactViewModel {Name = "Alexander Remedios"},
-                    new ContactViewModel {Name = "Alonso Blanco"},
-                    new ContactViewModel {Name = "Bayron Chavarria"},
-                    new ContactViewModel {Name = "Rosita"},
-                    new ContactViewModel {Name = "Laura Rojas"},
-                    new ContactViewModel {Name = "Walter"}
-                }
+				Contacts = FromPlayerNames(new [] {
+					"Orlando Sanchez",
+					"Jairo Esquivel",
+					"Marvin Solano",
+					"Carlos Mendez",
+					"David",
+					"Fernando Valverde Chavarría",
+					"Steven",
+					"Aaron Cyrman",
+					"Eduardo Fonseca",
+					"Daniel Lacayo",
+					"Cesar Guillen Oreamuno",
+					"Ricardo Jimenez Guido",
+					"Oscar Ulloa Retana",
+					"Anthony Martinez",
+					"Guillermo Loaiza",
+					"Jia Ming Liou",
+					"Daniel Araya",
+					"Stuart Sanchez",
+					"Kenneth Barquero"
+				})
             };
         }
     }
