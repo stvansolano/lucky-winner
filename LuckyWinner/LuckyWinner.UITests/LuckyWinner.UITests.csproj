@@ -53,6 +53,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="..\LuckyWinner\LuckyWinner\LuckyWinner.projitems" Label="Shared" Condition="Exists('..\LuckyWinner\LuckyWinner\LuckyWinner.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\LuckyWinner\LuckyWinner.csproj">
+      <Project>{CB01A8AB-DCAB-49D8-9764-4810A63FEAF7}</Project>
+      <Name>LuckyWinner</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

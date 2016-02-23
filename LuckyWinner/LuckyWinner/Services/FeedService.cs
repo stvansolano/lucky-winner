@@ -1,15 +1,12 @@
-﻿using System.Net;
-using Newtonsoft.Json.Linq;
-
-namespace Shared
+﻿namespace Shared
 {
     using System.Threading.Tasks;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Newtonsoft.Json;
-    using System.Collections.ObjectModel;
-	using System.Diagnostics;
+    using System.Net;
+    using System.Diagnostics;
 
     public class FeedService : RestService
     {
@@ -19,9 +16,9 @@ namespace Shared
         {
         }
 
-        public async Task<IEnumerable<Category>> GetCategories()
+        public async Task<IEnumerable<Contact>> GetCategories()
         {
-            var result = new List<Category>();
+            var result = new List<Contact>();
 
             if (Network.IsConnected == false)
             {
@@ -30,10 +27,10 @@ namespace Shared
 				
             try
             {
-				var json = await Get("/Categories.json").ConfigureAwait(false);
+				var json = await Get("/Contacts.json").ConfigureAwait(false);
 
 				// JSON.Net deserialization
-				var parsed = JsonConvert.DeserializeObject<Dictionary<object, Category>>(json);
+				var parsed = JsonConvert.DeserializeObject<Dictionary<object, Contact>>(json);
 
 				return parsed.Values.ToArray();
             }
@@ -45,7 +42,7 @@ namespace Shared
             return result;
         }
 
-		public async Task<bool> Post(Category instance)
+		public async Task<bool> Post(Contact instance)
 		{
 			if (Network.IsConnected == false)
 			{
@@ -54,7 +51,7 @@ namespace Shared
 				
 			try
 			{
-				var result = await Post("/Categories.json", instance).ConfigureAwait(false);
+				var result = await Post("/Contacts.json", instance).ConfigureAwait(false);
 
 				return result != null && result.StatusCode == HttpStatusCode.OK;
 			}
@@ -65,7 +62,5 @@ namespace Shared
 
 			return false;
 		}
-
-
     }
 }

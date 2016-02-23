@@ -8,11 +8,11 @@ namespace LuckyWinner.Droid
     using Android.OS;
     using Xamarin.Forms.Platform.Android;
 
-    [Activity (Label = "Lucky Winner", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Theme = "@style/MyTheme")]
-	public class MainActivity : /*FormsApplicationActivity*/FormsAppCompatActivity
+    [Activity(Label = "Lucky Winner", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, Theme = "@style/MyTheme")]
+    public class MainActivity : /*FormsApplicationActivity*/FormsAppCompatActivity
     {
-		protected override void OnCreate (Bundle bundle)
-		{
+        protected override void OnCreate(Bundle bundle)
+        {
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
             {
                 try
@@ -28,8 +28,8 @@ namespace LuckyWinner.Droid
                 }
             };
 
-		    try
-		    {
+            try
+            {
                 base.OnCreate(bundle);
 
                 Forms.Init(this, bundle);
@@ -39,10 +39,10 @@ namespace LuckyWinner.Droid
 
                 LoadApplication(new App());
             }
-		    catch (Exception ex)
-		    {
+            catch (Exception ex)
+            {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
-		}
-	}
+        }
+    }
 }

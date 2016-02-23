@@ -1,6 +1,6 @@
 ﻿namespace Shared
 {
-    //using Plugin.Connectivity;
+    using Plugin.Connectivity;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
