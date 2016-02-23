@@ -1,11 +1,10 @@
-﻿using Xamarin.Forms;
-
-namespace Shared.ViewModels
+﻿namespace Shared.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using System.Linq;
+	using Xamarin.Forms;
 
     public class GameViewModel : ViewModelBase
     {
@@ -15,26 +14,13 @@ namespace Shared.ViewModels
             Network = network;
 
             _players = new ObservableCollection<PlayerViewModel>();
-            Groups = new ObservableCollection<GroupViewModel>(
-                new[]
-                {
-                    GetLocalGroup(),
-                    GetMeetupGroup()
-                }
-            );
-
-            SelectedGroup = Groups.First();
         }
 
-        private void FillPlayers()
+        public void FillPlayers(GroupViewModel group)
         {
             _players.Clear();
 
-            if (SelectedGroup == null)
-            {
-                return;
-            }
-            foreach (var player in SelectedGroup.Contacts)
+            foreach (var player in group.Contacts)
             {
                 var item = new PlayerViewModel {PlayerName = player.Name};
 
@@ -71,7 +57,6 @@ namespace Shared.ViewModels
         }
 
         private PlayerViewModel _winner;
-
         public PlayerViewModel Winner
         {
             get { return _winner; }
@@ -82,35 +67,9 @@ namespace Shared.ViewModels
             }
         }
 
-        private GroupViewModel _selectedGroup;
         private ObservableCollection<PlayerViewModel> _players;
 
-        public GroupViewModel SelectedGroup
-        {
-            get { return _selectedGroup; }
-            set
-            {
-                _selectedGroup = value;
-
-                FillPlayers();
-                OnPropertyChanged();
-                OnPropertyChanged("SelectedGroupTitle");
-            }
-        }
-
-        public string SelectedGroupTitle
-        {
-            get { return SelectedGroup == null ? string.Empty : SelectedGroup.GroupName; }
-        }
-
-        public NetworkService Network { get; set; }
-
-        public IEnumerable<GroupViewModel> Groups { get; set; }
-
-        public IList<string> GroupNames
-        {
-            get { return Groups.Select(item => item.GroupName).ToList(); }
-        }
+        protected NetworkService Network { get; set; }
 
         private PlayerViewModel GetNewPlayer(string text)
         {
@@ -126,54 +85,8 @@ namespace Shared.ViewModels
             _players.Add(GetNewPlayer(fromText));
         }
 
-        private GroupViewModel GetLocalGroup()
-        {
-            return new GroupViewModel
-            {
-                GroupName = "Local",
-				Contacts = FromPlayerNames(new [] {
-					"Juan Carlos",
-					"Jairo Esquivel",
-					"Stuart Sanchez",
-					"Esteban",
-					"Kimberly",
-					"Heizel Martínez Garro",
-					"Elián Acuña Fernández"
-				})
-            };
-        }
-
 		private ContactViewModel[] FromPlayerNames(string[] names) {
 			return names.Select (item => new ContactViewModel { Name = item}).ToArray();
 		}
-
-        private GroupViewModel GetMeetupGroup()
-        {
-            return new GroupViewModel
-            {
-                GroupName = "Meetup",
-				Contacts = FromPlayerNames(new [] {
-					"Orlando Sanchez",
-					"Jairo Esquivel",
-					"Marvin Solano",
-					"Carlos Mendez",
-					"David",
-					"Fernando Valverde Chavarría",
-					"Steven",
-					"Aaron Cyrman",
-					"Eduardo Fonseca",
-					"Daniel Lacayo",
-					"Cesar Guillen Oreamuno",
-					"Ricardo Jimenez Guido",
-					"Oscar Ulloa Retana",
-					"Anthony Martinez",
-					"Guillermo Loaiza",
-					"Jia Ming Liou",
-					"Daniel Araya",
-					"Stuart Sanchez",
-					"Kenneth Barquero"
-				})
-            };
-        }
     }
 }

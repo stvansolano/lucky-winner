@@ -6,24 +6,21 @@
 
     public class NetworkService : INotifyPropertyChanged
     {
-        private bool _isConnected;
-
         public NetworkService()
         {
-            /*CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
+            CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
             {
                 IsConnected = args.IsConnected;
             };
 
-            IsConnected = CrossConnectivity.Current.IsConnected;*/
+            IsConnected = CrossConnectivity.Current.IsConnected;
         }
 
         public bool IsConnected
         {
-            get { return _isConnected; }
+			get { return CrossConnectivity.Current.IsConnected; }
             set
             {
-                _isConnected = value;
                 OnPropertyChanged();
             }
         }

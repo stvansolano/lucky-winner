@@ -25,8 +25,6 @@
 
 					NewPlayerEntry.Focus();
                 };
-
-                FillPicker();
             }
             catch (Exception ex)
             {
@@ -69,21 +67,6 @@
         public override string ToString()
         {
             return ViewModel.Title;
-        }
-
-        public void FillPicker()
-        {
-            var viewModel = ViewModel;
-
-            foreach (var item in ViewModel.GroupNames)
-            {
-                GroupPicker.Items.Add(item);
-            }
-
-            GroupPicker.SelectedIndexChanged += (sender, args) =>
-            {
-                ViewModel.SelectedGroup = viewModel.Groups.ElementAtOrDefault(GroupPicker.SelectedIndex);
-            };
         }
     }
 }
