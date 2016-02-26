@@ -4,6 +4,12 @@
 
     public class PlayerViewModel : ViewModelBase
     {
+        public PlayerViewModel(User user)
+        {
+            PlayerName = user.Name;
+
+        }
+
         private string _playerName;
         public string PlayerName
         {

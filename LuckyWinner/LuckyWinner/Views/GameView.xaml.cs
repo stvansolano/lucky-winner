@@ -4,7 +4,6 @@
     using Shared.ViewModels;
     using Xamarin.Forms;
     using System.Linq;
-    using Shared;
     using System.Diagnostics;
 
     public partial class GameView
@@ -13,9 +12,6 @@
 		{
             try
             {
-                ViewModel = new GameViewModel(new NetworkService());
-                ViewModel.PlayCommand = new Command(() => Play());
-
                 InitializeComponent();
 
                 NewPlayerEntry.Completed += (sender, args) =>
@@ -32,31 +28,6 @@
             }
         }
 
-        private void Play()
-        {
-            if (ViewModel.Players.Any() == false)
-            {
-                return;
-            }
-            foreach (var item in ViewModel.Players)
-            {
-                item.IsWinner = false;
-            }
-
-            var random = new Random(DateTime.Now.Millisecond);
-
-            var lucky = random.Next(0, ViewModel.Players.Count());
-            var selectedPlayer = ViewModel.Players.ElementAtOrDefault(lucky);
-
-            if (selectedPlayer != null)
-            {
-                selectedPlayer.IsWinner = true;
-                ViewModel.Winner = selectedPlayer;
-
-				PlayersSelector.ScrollTo(selectedPlayer, ScrollToPosition.Center, true);
-            }
-        }
-
         private GameViewModel _viewModel;
         public GameViewModel ViewModel
 	    {
@@ -67,6 +38,11 @@
         public override string ToString()
         {
             return ViewModel.Title;
+        }
+
+        public void Reveal(PlayerViewModel winner)
+        {
+            PlayersSelector.ScrollTo(winner, ScrollToPosition.Center, true);
         }
     }
 }

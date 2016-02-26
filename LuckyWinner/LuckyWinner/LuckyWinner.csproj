@@ -38,21 +38,25 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\User.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\RestService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="ViewModels\EventLogViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
-    <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\PlayerViewModel.cs" />
+    <Compile Include="ViewModels\SessionViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Participant.cs" />
-    <Compile Include="Services\ParticipantService.cs" />
+    <Compile Include="Models\Game.cs" />
+    <Compile Include="Services\GameService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

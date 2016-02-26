@@ -35,7 +35,7 @@ namespace Shared
             return httpClient;
         }
 
-		protected async Task<string> Get(string resource)
+		protected async Task<string> GetContent(string resource)
 		{
 			using (var httpClient = CreateClient())
 			{
@@ -48,7 +48,7 @@ namespace Shared
 			return string.Empty;
 		}
 
-        protected async Task<IEnumerable<T>> Get<T>(string resource) where T: class
+        protected async Task<IEnumerable<T>> GetResource<T>(string resource) where T: class
         {
             try
             {
