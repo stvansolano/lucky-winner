@@ -10,11 +10,18 @@ namespace Shared
     public class UserService : RestService
     {
         private const string ApiAddress = "https://lucky-winner.firebaseio.com/";
-        private const string PARENT_RESOURCE = "Users";
+        private const string USERS = "Users";
 
         public UserService(NetworkService networkService) : base(ApiAddress, networkService)
         {
         }
+
+
+		private string GetUrlSuffix(params string[] parts)
+		{
+			return string.Join ("/", USERS, parts);
+		}
+
 
         private User GetUnregisteredUser()
         {
@@ -27,31 +34,22 @@ namespace Shared
 
             if (string.IsNullOrEmpty(registrationKey))
             {
-                if (Network.IsConnected == false)
-                {
-                    return registeringUser;
-                }
-
-                var response = await Post(PARENT_RESOURCE + "/.json", registeringUser);
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    if (!string.IsNullOrWhiteSpace(json))
-                    {
-						registeringUser.Id = JsonConvert.DeserializeXNode(json).Descendants("name").First().Value;
-                    }
-                }
-                return registeringUser;
+				return await SaveAsNew(registeringUser);
             }
 
             try
             {
-                var json = await GetContent(PARENT_RESOURCE + "/.json").ConfigureAwait(false);
+				var json = await GetContent(GetUrlSuffix(".json")).ConfigureAwait(false);
 
                 // JSON.Net deserialization
                 var parsed = JsonConvert.DeserializeObject<Dictionary<object, User>>(json);
 
-                return parsed.Values.FirstOrDefault(item => item.RegistrationKey == registrationKey) ?? registeringUser;
+                var match = parsed.Values.FirstOrDefault(item => item.RegistrationKey == registrationKey);
+
+				if (match == null) {
+					return await SaveAsNew(registeringUser);
+				}
+				return match;
             }
             catch (Exception ex)
             {
@@ -60,5 +58,18 @@ namespace Shared
 
             return registeringUser;
         }
+
+		private async Task<User> SaveAsNew (User registeringUser)
+		{
+			if (Network.IsConnected == false)
+			{
+				return registeringUser;
+			}
+
+			var response = await Post(GetUrlSuffix(".json"), registeringUser);
+			registeringUser.Id = await DeserializeId(response);
+
+			return registeringUser;
+		}
     }
 }

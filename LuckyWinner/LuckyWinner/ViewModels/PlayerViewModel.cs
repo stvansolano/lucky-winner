@@ -4,11 +4,13 @@
 
     public class PlayerViewModel : ViewModelBase
     {
-        public PlayerViewModel(User user)
+		public PlayerViewModel(User model)
         {
-            PlayerName = user.Name;
-
+            PlayerName = model.Name;
+			Model = model;
         }
+
+		public User Model { get; set; }
 
         private string _playerName;
         public string PlayerName

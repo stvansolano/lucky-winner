@@ -6,6 +6,7 @@
 	using Xamarin.Forms;
     using Shared;
     using Shared.ViewModels;
+	using System.Threading.Tasks;
 
     public partial class MainPage
 	{
@@ -22,32 +23,15 @@
             
 		    try
 		    {
+				Network = new NetworkService();
+				UserAuth = new UserService(Network);
+				Session = new SessionViewModel(UserAuth);
+				GameService = new GameService(Network);
+
                 InitializeComponent();
 
-                Network = new NetworkService();
-
-		        UserAuth = new UserService(Network);
-                Session = new SessionViewModel(UserAuth);
-
-                this.RunSafe(() => CheckinUser());
-
-				MainGame = new GameView();
-
-				var viewModel = new GameViewModel(GameService, new Game());
-
-				viewModel.PlayCommand = new Command(() =>
-					{
-						viewModel.Play();
-
-						var winner = viewModel.Winner;
-						if (winner != null)
-						{
-							MainGame.Reveal(winner);
-						}
-					});
-
-				MainGame.ViewModel = viewModel;
-                Detail = new NavigationPage(new ContentPage { Title = MainGame.ViewModel.Title, Content = MainGame});
+				InitializeUserInterface();
+				InitializeUserSettings();
             }
             catch (Exception ex)
 		    {
@@ -56,19 +40,46 @@
             }
         }
 
-        private async void CheckinUser()
+		private void InitializeUserInterface ()
+		{
+			MainGame = new GameView();
+
+			var viewModel = new GameViewModel(GameService);
+
+			viewModel.PlayCommand = new Command(() =>
+				{
+					viewModel.Play();
+
+					var winner = viewModel.Winner;
+					if (winner != null)
+					{
+						MainGame.Reveal(winner);
+					}
+				});
+
+			MainGame.ViewModel = viewModel;
+			Detail = new NavigationPage(new ContentPage { Title = MainGame.ViewModel.Title, Content = MainGame});
+		}
+
+		private const string REGISTRATION_KEY = "RegistrationKey";
+
+		private async void InitializeUserSettings()
         {
             object registrationKey;
-            if (KeyValueStore.TryGetValue("registrationKey", out registrationKey) == false)
+			if (KeyValueStore.TryGetValue(REGISTRATION_KEY, out registrationKey) == false)
             {
                 registrationKey = string.Empty;
             }
 
             var user = await UserAuth.Checkin(registrationKey.ToString());
 
-			KeyValueStore.Set("registrationKey", user.RegistrationKey);
+			KeyValueStore.Set(REGISTRATION_KEY, user.RegistrationKey);
 
             Session.User = new UserViewModel(user);
+			Session.Games.Add (MainGame.ViewModel);
+
+			MainGame.ViewModel.Model.Owner = Session.User.Model;
+			await GameService.SaveAsync (MainGame.ViewModel.Model);
         }
 	}
 }

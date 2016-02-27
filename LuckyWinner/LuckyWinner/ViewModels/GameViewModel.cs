@@ -16,41 +16,35 @@ namespace Shared.ViewModels
         public ObservableCollection<EventLogViewModel> History { get; private set; }
         public ObservableCollection<PlayerViewModel> Winners { get; private set; }
 
-        public GameViewModel(GameService service, Game model)
+        public GameViewModel(GameService service)
         {
             Title = "Sorteo";
             Service = service;
-            Model = model;
 
             _players = new ObservableCollection<PlayerViewModel>();
 
             Load();
         }
 
-        protected Game Model { get; set; }
+        public Game Model { get; set; }
 
         private void Load()
         {
         }
 
-        public void FillPlayers()
-        {
-            _players.Clear();
-
-            foreach (var player in Model.Participants)
-            {
-                var item = new PlayerViewModel(player);
-
-                SetCommands(item);
-
-                _players.Add(item);
-            }
-        }
-
         private void SetCommands(PlayerViewModel item)
         {
-            item.DeleteCommand = new Command(() => _players.Remove(item));
+			item.DeleteCommand = new Command(() => RemovePlayer(item));
         }
+
+		private async void RemovePlayer (PlayerViewModel item)
+		{
+			var index = _players.IndexOf (item);
+			_players.Remove (item);
+
+			Model.Participants.RemoveAt (index);
+			await Service.SaveParticipantsAsync(Model);
+		}
 
         public IEnumerable<PlayerViewModel> Players
         {
@@ -68,7 +62,6 @@ namespace Shared.ViewModels
         public string Title { get; set; }
 
         private ICommand _playCommand;
-
         public ICommand PlayCommand
         {
             get { return _playCommand; }
@@ -76,7 +69,6 @@ namespace Shared.ViewModels
         }
 
         private PlayerViewModel _winner;
-
         public PlayerViewModel Winner
         {
             get { return _winner; }
@@ -91,16 +83,19 @@ namespace Shared.ViewModels
 
         private PlayerViewModel GetNewPlayer(string name)
         {
-            var result = new PlayerViewModel(new User {Name = name});
+			Model.Participants.Add (name);
+			var result = new PlayerViewModel(new User {Name = name});
 
             SetCommands(result);
 
             return result;
         }
 
-        public void AddPlayer(string fromText)
+        public async void AddPlayer(string fromText)
         {
             _players.Add(GetNewPlayer(fromText));
+
+			await Service.SaveParticipantsAsync(Model);
         }
 
         private PlayerViewModel[] FromPlayerNames(string[] names)
@@ -108,7 +103,7 @@ namespace Shared.ViewModels
             return names.Select(item => new PlayerViewModel(new User {Name = item})).ToArray();
         }
 
-        public void Play()
+        public async void Play()
         {
             if (Players.Any() == false)
             {
@@ -130,6 +125,8 @@ namespace Shared.ViewModels
                 Winner = selectedPlayer;
 
                 History.Add(new EventLogViewModel(string.Format("{0} winned!", selectedPlayer.PlayerName)));
+
+				await Service.SaveHistoryAsync(Model);
             }
         }
     }

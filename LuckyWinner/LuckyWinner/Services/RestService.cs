@@ -88,5 +88,41 @@ namespace Shared
 			}
 			return new HttpResponseMessage{ StatusCode = System.Net.HttpStatusCode.BadRequest };
 		}
+
+		protected async Task<HttpResponseMessage> Put<T>(string resource, T instance) where T: class
+		{
+			try
+			{
+				using (var httpClient = CreateClient())
+				{
+					var json = JsonConvert.SerializeObject(instance);
+					return await httpClient.PutAsync(resource, new StringContent(json, Encoding.UTF8, "application/json")).ConfigureAwait(false);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
+			return new HttpResponseMessage{ StatusCode = System.Net.HttpStatusCode.BadRequest };
+		}
+
+		protected async Task<string> DeserializeId (HttpResponseMessage fromResponse)
+		{
+			if (fromResponse.IsSuccessStatusCode)
+			{
+				var json = await fromResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+				if (!string.IsNullOrWhiteSpace(json))
+				{
+					var parsed = JsonConvert.DeserializeXNode(json).Descendants("name").FirstOrDefault();
+
+					if (parsed == null) 
+					{
+						return string.Empty;
+					}
+					return parsed.Value ?? string.Empty;
+				}
+			}
+			return string.Empty;
+		}
     }
 }

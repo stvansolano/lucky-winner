@@ -32,7 +32,10 @@
         public GameViewModel ViewModel
 	    {
 	        get { return _viewModel; }
-	        set { _viewModel = value; }
+	        set {
+				_viewModel = value;
+				OnPropertyChanged ("ViewModel");
+			}
 	    }
 
         public override string ToString()
