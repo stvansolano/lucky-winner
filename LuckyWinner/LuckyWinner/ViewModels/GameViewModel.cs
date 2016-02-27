@@ -23,14 +23,10 @@ namespace Shared.ViewModels
 
             _players = new ObservableCollection<PlayerViewModel>();
 
-            Load();
+			Model = new Game ();
         }
 
-        public Game Model { get; set; }
-
-        private void Load()
-        {
-        }
+        public Game Model { get; private set; }
 
         private void SetCommands(PlayerViewModel item)
         {

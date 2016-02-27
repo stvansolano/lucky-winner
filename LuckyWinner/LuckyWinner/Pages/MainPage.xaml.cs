@@ -56,7 +56,7 @@
 						MainGame.Reveal(winner);
 					}
 				});
-
+					
 			MainGame.ViewModel = viewModel;
 			Detail = new NavigationPage(new ContentPage { Title = MainGame.ViewModel.Title, Content = MainGame});
 		}

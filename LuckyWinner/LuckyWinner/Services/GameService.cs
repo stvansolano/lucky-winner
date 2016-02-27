@@ -11,8 +11,8 @@
 
     public class GameService : RestService
     {
-		private const string GAMES = "/Games";
         private const string ApiAddress = "https://lucky-winner.firebaseio.com/";
+		private const string GAMES = "/Games";
 
         public GameService(NetworkService networkService) : base(ApiAddress, networkService)
         {
@@ -20,7 +20,10 @@
 
 		private string GetUrlSuffix(params string[] parts)
 		{
-			return string.Join ("/", GAMES, parts);
+			var items = new List<string> (parts);
+			items.Insert(0, GAMES);
+
+			return string.Join ("/", items.ToArray());
 		}
 
 		public async Task<IEnumerable<Game>> GetUserGamesAsync(string userId)

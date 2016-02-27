@@ -1,16 +1,6 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Shared.ViewModels
+﻿namespace Shared.ViewModels
 {
-    // Session
-    //      -> User {email, name, etc}
-    //      -> OwnedGames []
-    //          -> GameType
-    //          -> Name
-    //          -> History
-    //          -> Participants
-    //      -> Subscriptions
-    //          -> Id
+	using System.Collections.ObjectModel;
 
     public class SessionViewModel
     {
@@ -35,26 +25,5 @@ namespace Shared.ViewModels
         public string Id { get; set; }
         public string From { get; set; }
         public string To { get; set; }
-    }
-
-    public class UserViewModel : ViewModelBase
-    {
-        public UserViewModel(User model)
-        {
-            Id = model.Id;
-            Email = model.Email;
-            Name = model.Name;
-
-			Model = model;
-        }
-
-		public User Model { 
-			get;
-			private set;
-		}
-
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string Name { get; set; }
     }
 }
