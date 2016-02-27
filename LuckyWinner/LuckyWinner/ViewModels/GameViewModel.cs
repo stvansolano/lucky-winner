@@ -1,19 +1,18 @@
-﻿using System;
-
-namespace Shared.ViewModels
+﻿namespace Shared.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using System.Linq;
     using Xamarin.Forms;
+	using System;
 
     public class GameViewModel : ViewModelBase
     {
         private readonly ObservableCollection<PlayerViewModel> _players;
 
         public ObservableCollection<PlayerViewModel> Participants { get; private set; }
-        public ObservableCollection<EventLogViewModel> History { get; private set; }
+        //public ObservableCollection<EventLogViewModel> History { get; private set; }
         public ObservableCollection<PlayerViewModel> Winners { get; private set; }
 
         public GameViewModel(GameService service)
@@ -24,9 +23,16 @@ namespace Shared.ViewModels
             _players = new ObservableCollection<PlayerViewModel>();
 
 			Model = new Game ();
+			//History = new ObservableCollection<EventLogViewModel> ();
+			Winners = new ObservableCollection<PlayerViewModel> ();
         }
 
         public Game Model { get; private set; }
+
+		public void Load (Game model)
+		{
+			Model = model;
+		}
 
         private void SetCommands(PlayerViewModel item)
         {
@@ -120,7 +126,8 @@ namespace Shared.ViewModels
                 selectedPlayer.IsWinner = true;
                 Winner = selectedPlayer;
 
-                History.Add(new EventLogViewModel(string.Format("{0} winned!", selectedPlayer.PlayerName)));
+                //History.Add(new EventLogViewModel(string.Format("{0} winned!", selectedPlayer.PlayerName)));
+				Model.History.Add(string.Format("{0} winned!", selectedPlayer.PlayerName));
 
 				await Service.SaveHistoryAsync(Model);
             }

@@ -28,31 +28,63 @@
 
 		public async Task<IEnumerable<Game>> GetUserGamesAsync(string userId)
         {
-            var result = new List<Game>();
+            var empty = new List<Game>();
 
             if (Network.IsConnected == false)
             {
-                return result;
+                return empty;
             }
 				
             try
             {
-				var resource = GetUrlSuffix(userId, ".json");
+				var query = await FetchGames(GetUrlSuffix(".json"));
 
-				var json = await GetContent(resource).ConfigureAwait(false);
-
-				// JSON.Net deserialization
-				var parsed = JsonConvert.DeserializeObject<Dictionary<object, Game>>(json);
-
-				return parsed.Values.Where(item => item.Owner != null && item.Owner.Id == userId).ToArray();
+				return query.Where(item => item.Owner != null && item.Owner.Id == userId);
             }
             catch (Exception ex)
             {
 				Debug.WriteLine(ex.Message);
             }
             
-            return result;
+            return empty;
         }
+
+		private async Task<IEnumerable<Game>> FetchGames (string query)
+		{
+			var empty = new List<Game>();
+
+			var json = await GetContent(query).ConfigureAwait(false);
+
+			if (string.IsNullOrEmpty(json)) {
+				return empty;
+			}
+			// JSON.Net deserialization
+			var parsed = JsonConvert.DeserializeObject<Dictionary<object, Game>>(json);
+
+			if (parsed == null) {
+				return empty;
+			}
+
+			return parsed.Values;
+		}
+
+		public async Task<Game> GetGameAsync (string gameId)
+		{
+			var empty = new Game();
+
+			try
+			{
+				var query = await FetchGames(GetUrlSuffix(gameId, ".json"));
+
+				return query.FirstOrDefault() ?? empty;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
+
+			return empty;
+		}
 
 		public async Task<bool> SaveAsync(Game instance)
 		{

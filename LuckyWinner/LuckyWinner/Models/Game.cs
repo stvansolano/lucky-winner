@@ -10,6 +10,7 @@
 			Name = string.Empty;
 			Owner = new User ();
 			Participants = new List<string> ();
+			History = new List<string> ();
 		}
 
         public string Id { get; set; }

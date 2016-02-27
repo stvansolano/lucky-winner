@@ -6,6 +6,8 @@
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Newtonsoft.Json;
+	using System.Net.Http;
+	using System.Net;
 
     public class UserService : RestService
     {
@@ -49,11 +51,15 @@
                 var parsed = JsonConvert.DeserializeObject<Dictionary<object, User>>(json);
 
 				if (parsed == null) {
+					registeringUser.RegistrationKey = registrationKey;
+
 					return await SaveAsNew(registeringUser);
 				}
                 var match = parsed.Values.FirstOrDefault(item => item.RegistrationKey == registrationKey);
 
 				if (match == null) {
+					registeringUser.RegistrationKey = registrationKey;
+
 					return await SaveAsNew(registeringUser);
 				}
 				return match;
@@ -77,6 +83,39 @@
 			registeringUser.Id = await DeserializeId(response);
 
 			return registeringUser;
+		}
+
+		// TODO: Refactor Save method
+		public async Task<bool> SaveUserAsync (User instance)
+		{
+			if (Network.IsConnected == false)
+			{
+				return false;
+			}
+
+			try
+			{
+				HttpResponseMessage result = null;
+
+				if (string.IsNullOrEmpty(instance.Id)) 
+				{
+					var response = await Post(GetUrlSuffix(".json"), instance).ConfigureAwait(false);
+
+					instance.Id = await DeserializeId(response).ConfigureAwait(false);
+				}
+				else 
+				{
+					result = await Put(GetUrlSuffix(instance.Id, ".json"), instance).ConfigureAwait(false);
+				}
+
+				return result != null && result.StatusCode == HttpStatusCode.OK;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine(ex.Message);
+			}
+
+			return false;			
 		}
     }
 }

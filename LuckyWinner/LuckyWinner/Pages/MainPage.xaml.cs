@@ -7,6 +7,7 @@
     using Shared;
     using Shared.ViewModels;
 	using System.Threading.Tasks;
+	using System.Linq;
 
     public partial class MainPage
 	{
@@ -78,8 +79,25 @@
             Session.User = new UserViewModel(user);
 			Session.Games.Add (MainGame.ViewModel);
 
-			MainGame.ViewModel.Model.Owner = Session.User.Model;
-			await GameService.SaveAsync (MainGame.ViewModel.Model);
-        }
+			var gameSettings = MainGame.ViewModel;
+
+			Game game;
+			if (user.HasGames) {
+				game = await GameService.GetGameAsync (user.OwnedGames.FirstOrDefault ()) ?? new Game ();
+				gameSettings.Load (game);
+
+				return;
+			}
+			game = new Game ();
+			game.Owner = user;
+
+			await GameService.SaveAsync (game);
+
+			user.OwnedGames.Add (game.Id);
+
+			await UserAuth.SaveUserAsync(user);
+
+			gameSettings.Load (game);
+		}
 	}
 }
