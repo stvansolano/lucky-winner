@@ -9,12 +9,13 @@
 	using System.Net.Http;
 	using System.Net;
 
-    public class UserService : RestService
+	public class UserService : ResourceService<User>
     {
         private const string ApiAddress = "https://lucky-winner.firebaseio.com/";
         private const string USERS = "/Users";
 
-        public UserService(NetworkService networkService) : base(ApiAddress, networkService)
+        public UserService(NetworkService networkService) 
+			: base(ApiAddress, networkService, (item, key) => item.Id = key)
         {
         }
 

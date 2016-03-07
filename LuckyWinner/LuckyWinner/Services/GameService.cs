@@ -9,14 +9,14 @@
     using System.Linq;
 	using System.Net.Http;
 
-    public class GameService : RestService
+	public class GameService : ResourceService<Game>
     {
         private const string ApiAddress = "https://lucky-winner.firebaseio.com/";
 		private const string GAMES = "/Games";
 
-        public GameService(NetworkService networkService) : base(ApiAddress, networkService)
-        {
-        }
+		public GameService(NetworkService networkService) 
+			: base(ApiAddress, networkService, (item, key) => item.Id = key)
+        {}
 
 		private string GetUrlSuffix(params string[] parts)
 		{
@@ -37,9 +37,9 @@
 				
             try
             {
-				var query = await FetchGames(GetUrlSuffix(".json"));
+				var query = await FetchCollection(GetUrlSuffix(".json"), KeySetter);
 
-				return query.Where(item => item.Owner != null && item.Owner.Id == userId);
+				return query.Where(item => item.Owner != null && item.Owner == userId);
             }
             catch (Exception ex)
             {
@@ -49,32 +49,13 @@
             return empty;
         }
 
-		private async Task<IEnumerable<Game>> FetchGames (string query)
-		{
-			var empty = new List<Game>();
-
-			var json = await GetContent(query).ConfigureAwait(false);
-
-			if (string.IsNullOrEmpty(json)) {
-				return empty;
-			}
-			// JSON.Net deserialization
-			var parsed = JsonConvert.DeserializeObject<Dictionary<object, Game>>(json);
-
-			if (parsed == null) {
-				return empty;
-			}
-
-			return parsed.Values;
-		}
-
 		public async Task<Game> GetGameAsync (string gameId)
 		{
 			var empty = new Game();
 
 			try
 			{
-				var query = await FetchGames(GetUrlSuffix(gameId, ".json"));
+				var query = await FetchCollection(GetUrlSuffix(gameId, ".json"), KeySetter);
 
 				return query.FirstOrDefault() ?? empty;
 			}
@@ -161,5 +142,23 @@
 
 			return false;
 		}
+
+        public async Task<Game[]> LoadGamesAsync(string userId)
+        {
+            var empty = new Game[0];
+
+            try
+            {
+				var query = await FetchCollection(GetUrlSuffix(".json"), KeySetter);
+
+                return query.Where(item => item.Owner == userId).ToArray();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return empty;
+        }
     }
 }

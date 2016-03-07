@@ -58,6 +58,7 @@
     <Compile Include="Models\Game.cs" />
     <Compile Include="Services\GameService.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Services\ResourceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

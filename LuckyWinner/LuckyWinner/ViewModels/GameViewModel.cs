@@ -32,6 +32,14 @@
 		public void Load (Game model)
 		{
 			Model = model;
+
+			var players = model.Participants ?? new List<string> ();
+			if (players.Any() == false) {
+				return;
+			}
+			foreach (var item in players) {
+				_players.Add(GetNewPlayer(item));
+			}
 		}
 
         private void SetCommands(PlayerViewModel item)
@@ -85,7 +93,6 @@
 
         private PlayerViewModel GetNewPlayer(string name)
         {
-			Model.Participants.Add (name);
 			var result = new PlayerViewModel(new User {Name = name});
 
             SetCommands(result);
@@ -93,9 +100,10 @@
             return result;
         }
 
-        public async void AddPlayer(string fromText)
+        public async void AddPlayer(string name)
         {
-            _players.Add(GetNewPlayer(fromText));
+            _players.Add(GetNewPlayer(name));
+			Model.Participants.Add (name);
 
 			await Service.SaveParticipantsAsync(Model);
         }

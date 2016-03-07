@@ -8,14 +8,14 @@
 		{
 			Id = string.Empty;
 			Name = string.Empty;
-			Owner = new User ();
+			Owner = string.Empty;
 			Participants = new List<string> ();
 			History = new List<string> ();
 		}
 
         public string Id { get; set; }
         public string Name { get; set; }
-        public User Owner{ get; set; }
+        public string Owner{ get; set; }
         public List<string> Participants { get; set; }
 		public List<string> History { get; set; }
     }

@@ -77,24 +77,24 @@
 			KeyValueStore.Set(REGISTRATION_KEY, user.RegistrationKey);
 
             Session.User = new UserViewModel(user);
-			Session.Games.Add (MainGame.ViewModel);
+
+		    var games = await GameService.LoadGamesAsync(user.Id);
 
 			var gameSettings = MainGame.ViewModel;
 
 			Game game;
-			if (user.HasGames) {
-				game = await GameService.GetGameAsync (user.OwnedGames.FirstOrDefault ()) ?? new Game ();
+			if (games.Any())
+			{
+			    game = games.LastOrDefault();
 				gameSettings.Load (game);
 
 				return;
 			}
 			game = new Game ();
-			game.Owner = user;
-
-			await GameService.SaveAsync (game);
-
+			game.Owner = user.Id;
 			user.OwnedGames.Add (game.Id);
 
+			await GameService.SaveAsync (game);
 			await UserAuth.SaveUserAsync(user);
 
 			gameSettings.Load (game);
