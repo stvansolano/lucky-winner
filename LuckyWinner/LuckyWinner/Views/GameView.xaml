@@ -55,6 +55,7 @@
 					<ListView x:Name="PlayersSelector"
 							  ItemsSource="{Binding Path=Players}"
 							  SeparatorColor="Gray"
+							  IsRefreshing="{Binding Path=IsRefreshing}"
 							  SelectedItem="{Binding Path=Winner, Mode=TwoWay}">
 						<ListView.ItemTemplate>
 							<DataTemplate>

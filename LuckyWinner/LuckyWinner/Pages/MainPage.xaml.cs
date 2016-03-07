@@ -11,11 +11,8 @@
 
     public partial class MainPage
 	{
-        protected GameService GameService { get; set; }
-        protected GameView MainGame { get; set; }
-        protected UserService UserAuth { get; set; }
+		protected GameView MainGame { get; set; }
         protected NetworkService Network { get; set; }
-        protected SessionViewModel Session { get; set; }
         protected AppKeyValueStore KeyValueStore { get; set; }
 
         public MainPage (AppKeyValueStore keyValueStore)
@@ -25,9 +22,6 @@
 		    try
 		    {
 				Network = new NetworkService();
-				UserAuth = new UserService(Network);
-				Session = new SessionViewModel(UserAuth);
-				GameService = new GameService(Network);
 
                 InitializeComponent();
 
@@ -45,7 +39,7 @@
 		{
 			MainGame = new GameView();
 
-			var viewModel = new GameViewModel(GameService);
+			var viewModel = new GameViewModel(Network);
 
 			viewModel.PlayCommand = new Command(() =>
 				{
@@ -72,32 +66,12 @@
                 registrationKey = string.Empty;
             }
 
-            var user = await UserAuth.Checkin(registrationKey.ToString());
+			var gameSettings = MainGame.ViewModel;
+            var user = await gameSettings.UserAuth.Checkin(registrationKey.ToString());
 
 			KeyValueStore.Set(REGISTRATION_KEY, user.RegistrationKey);
 
-            Session.User = new UserViewModel(user);
-
-		    var games = await GameService.LoadGamesAsync(user.Id);
-
-			var gameSettings = MainGame.ViewModel;
-
-			Game game;
-			if (games.Any())
-			{
-			    game = games.LastOrDefault();
-				gameSettings.Load (game);
-
-				return;
-			}
-			game = new Game ();
-			game.Owner = user.Id;
-			user.OwnedGames.Add (game.Id);
-
-			await GameService.SaveAsync (game);
-			await UserAuth.SaveUserAsync(user);
-
-			gameSettings.Load (game);
+			gameSettings.Setup (user);
 		}
 	}
 }

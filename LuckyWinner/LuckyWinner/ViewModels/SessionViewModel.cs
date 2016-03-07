@@ -2,20 +2,21 @@
 {
 	using System.Collections.ObjectModel;
 
-    public class SessionViewModel
+    public class SessionViewModel : ViewModelBase
     {
         public UserViewModel User { get; set; }
         public ObservableCollection<SubscriptionViewModel> Subscriptions { get; private set; }
+		protected GameService GameService { get; set; }
+		public UserService UserAuth { get; protected set; }
 
-		public SessionViewModel(UserService service)
+		protected SessionViewModel(NetworkService network)
         {
-            Service = service;
 			Subscriptions = new ObservableCollection<SubscriptionViewModel> ();
 
 			User = new UserViewModel (new User());
+			UserAuth = new UserService(network);
+			GameService = new GameService(network);
 		}
-
-        public UserService Service { get; set; }
     }
 
     public class SubscriptionViewModel : ViewModelBase

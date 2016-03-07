@@ -7,7 +7,7 @@
     using Xamarin.Forms;
 	using System;
 
-    public class GameViewModel : ViewModelBase
+    public class GameViewModel : SessionViewModel
     {
         private readonly ObservableCollection<PlayerViewModel> _players;
 
@@ -15,10 +15,9 @@
         //public ObservableCollection<EventLogViewModel> History { get; private set; }
         public ObservableCollection<PlayerViewModel> Winners { get; private set; }
 
-        public GameViewModel(GameService service)
+		public GameViewModel(NetworkService network) : base(network)
         {
             Title = "Sorteo";
-            Service = service;
 
             _players = new ObservableCollection<PlayerViewModel>();
 
@@ -29,7 +28,7 @@
 
         public Game Model { get; private set; }
 
-		public void Load (Game model)
+		private void Load (Game model)
 		{
 			Model = model;
 
@@ -140,5 +139,42 @@
 				await Service.SaveHistoryAsync(Model);
             }
         }
+
+		private bool _isRefreshing;
+		public bool IsRefreshing {
+			get { return _isRefreshing; }
+			set 
+			{
+				_isRefreshing = value;
+				OnPropertyChanged ();
+			}
+		}
+
+		public async void Setup (User user)
+		{
+			IsRefreshing = true;
+
+			var games = await GameService.LoadGamesAsync(user.Id);
+
+			Game game;
+			if (games.Any())
+			{
+				game = games.LastOrDefault();
+				Load (game);
+
+				IsRefreshing = false;
+				return;
+			}
+			game = new Game ();
+			game.Owner = user.Id;
+			user.OwnedGames.Add (game.Id);
+
+			await GameService.SaveAsync (game);
+			await UserAuth.SaveUserAsync(user);
+
+			Load (game);
+
+			IsRefreshing = false;
+		}
     }
 }
