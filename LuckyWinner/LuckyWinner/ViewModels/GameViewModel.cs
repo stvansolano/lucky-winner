@@ -52,7 +52,7 @@
 			_players.Remove (item);
 
 			Model.Participants.RemoveAt (index);
-			await Service.SaveParticipantsAsync(Model);
+			await GameService.SaveParticipantsAsync(Model);
 		}
 
         public IEnumerable<PlayerViewModel> Players
@@ -88,8 +88,6 @@
             }
         }
 
-        protected GameService Service { get; set; }
-
         private PlayerViewModel GetNewPlayer(string name)
         {
 			var result = new PlayerViewModel(new User {Name = name});
@@ -104,7 +102,7 @@
             _players.Add(GetNewPlayer(name));
 			Model.Participants.Add (name);
 
-			await Service.SaveParticipantsAsync(Model);
+			await GameService.SaveParticipantsAsync(Model);
         }
 
         private PlayerViewModel[] FromPlayerNames(string[] names)
@@ -136,7 +134,7 @@
                 //History.Add(new EventLogViewModel(string.Format("{0} winned!", selectedPlayer.PlayerName)));
 				Model.History.Add(string.Format("{0} winned!", selectedPlayer.PlayerName));
 
-				await Service.SaveHistoryAsync(Model);
+				await GameService.SaveHistoryAsync(Model);
             }
         }
 
