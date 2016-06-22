@@ -1,53 +1,59 @@
-﻿using Xamarin.Forms;
-
-namespace Shared.ViewModels
+﻿namespace Shared.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using System.Linq;
+    using Xamarin.Forms;
+	using System;
 
-    public class GameViewModel : ViewModelBase
+    public class GameViewModel : SessionViewModel
     {
-        public GameViewModel(NetworkService network)
+        private readonly ObservableCollection<PlayerViewModel> _players;
+
+        public ObservableCollection<PlayerViewModel> Participants { get; private set; }
+        //public ObservableCollection<EventLogViewModel> History { get; private set; }
+        public ObservableCollection<PlayerViewModel> Winners { get; private set; }
+
+		public GameViewModel(NetworkService network) : base(network)
         {
             Title = "Sorteo";
-            Network = network;
 
             _players = new ObservableCollection<PlayerViewModel>();
-            Groups = new ObservableCollection<GroupViewModel>(
-                new[]
-                {
-                    GetLocalGroup(),
-                    GetMeetupGroup()
-                }
-            );
 
-            SelectedGroup = Groups.First();
+			Model = new Game ();
+			//History = new ObservableCollection<EventLogViewModel> ();
+			Winners = new ObservableCollection<PlayerViewModel> ();
         }
 
-        private void FillPlayers()
-        {
-            _players.Clear();
+        public Game Model { get; private set; }
 
-            if (SelectedGroup == null)
-            {
-                return;
-            }
-            foreach (var player in SelectedGroup.Contacts)
-            {
-                var item = new PlayerViewModel {PlayerName = player.Name};
+		private void Load (Game model)
+		{
+			Model = model;
 
-                SetCommands(item);
-
-                _players.Add(item);
-            }
-        }
+			var players = model.Participants ?? new List<string> ();
+			if (players.Any() == false) {
+				return;
+			}
+			foreach (var item in players) {
+				_players.Add(GetNewPlayer(item));
+			}
+		}
 
         private void SetCommands(PlayerViewModel item)
         {
-            item.DeleteCommand = new Command(() => _players.Remove(item));
+			item.DeleteCommand = new Command(() => RemovePlayer(item));
         }
+
+		private async void RemovePlayer (PlayerViewModel item)
+		{
+			var index = _players.IndexOf (item);
+			_players.Remove (item);
+
+			Model.Participants.RemoveAt (index);
+			await GameService.SaveParticipantsAsync(Model);
+		}
 
         public IEnumerable<PlayerViewModel> Players
         {
@@ -55,6 +61,7 @@ namespace Shared.ViewModels
         }
 
         private string _newPlayerName;
+
         public string NewPlayerName
         {
             get { return _newPlayerName; }
@@ -71,109 +78,101 @@ namespace Shared.ViewModels
         }
 
         private PlayerViewModel _winner;
-
         public PlayerViewModel Winner
         {
             get { return _winner; }
             set
             {
                 _winner = value;
-                OnPropertyChanged("Winner");
-            }
-        }
-
-        private GroupViewModel _selectedGroup;
-        private ObservableCollection<PlayerViewModel> _players;
-
-        public GroupViewModel SelectedGroup
-        {
-            get { return _selectedGroup; }
-            set
-            {
-                _selectedGroup = value;
-
-                FillPlayers();
                 OnPropertyChanged();
-                OnPropertyChanged("SelectedGroupTitle");
             }
         }
 
-        public string SelectedGroupTitle
+        private PlayerViewModel GetNewPlayer(string name)
         {
-            get { return SelectedGroup == null ? string.Empty : SelectedGroup.GroupName; }
-        }
-
-        public NetworkService Network { get; set; }
-
-        public IEnumerable<GroupViewModel> Groups { get; set; }
-
-        public IList<string> GroupNames
-        {
-            get { return Groups.Select(item => item.GroupName).ToList(); }
-        }
-
-        private PlayerViewModel GetNewPlayer(string text)
-        {
-            var result = new PlayerViewModel { PlayerName = text };
+			var result = new PlayerViewModel(new User {Name = name});
 
             SetCommands(result);
 
             return result;
         }
 
-        public void AddPlayer(string fromText)
+        public async void AddPlayer(string name)
         {
-            _players.Add(GetNewPlayer(fromText));
+            _players.Add(GetNewPlayer(name));
+			Model.Participants.Add (name);
+
+			await GameService.SaveParticipantsAsync(Model);
         }
 
-        private GroupViewModel GetLocalGroup()
+        private PlayerViewModel[] FromPlayerNames(string[] names)
         {
-            return new GroupViewModel
+            return names.Select(item => new PlayerViewModel(new User {Name = item})).ToArray();
+        }
+
+        public async void Play()
+        {
+            if (Players.Any() == false)
             {
-                GroupName = "Local",
-				Contacts = FromPlayerNames(new [] {
-					"Juan Carlos",
-					"Jairo Esquivel",
-					"Stuart Sanchez",
-					"Esteban",
-					"Kimberly",
-					"Heizel Martínez Garro",
-					"Elián Acuña Fernández"
-				})
-            };
+                return;
+            }
+            foreach (var item in Players)
+            {
+                item.IsWinner = false;
+            }
+
+            var random = new Random(DateTime.Now.Millisecond);
+
+            var lucky = random.Next(0, Players.Count());
+            var selectedPlayer = Players.ElementAtOrDefault(lucky);
+
+            if (selectedPlayer != null)
+            {
+                selectedPlayer.IsWinner = true;
+                Winner = selectedPlayer;
+
+                //History.Add(new EventLogViewModel(string.Format("{0} winned!", selectedPlayer.PlayerName)));
+				Model.History.Add(string.Format("{0} winned!", selectedPlayer.PlayerName));
+
+				await GameService.SaveHistoryAsync(Model);
+            }
         }
 
-		private ContactViewModel[] FromPlayerNames(string[] names) {
-			return names.Select (item => new ContactViewModel { Name = item}).ToArray();
+		private bool _isRefreshing;
+		public bool IsRefreshing {
+			get { return _isRefreshing; }
+			set 
+			{
+				_isRefreshing = value;
+				OnPropertyChanged ();
+			}
 		}
 
-        private GroupViewModel GetMeetupGroup()
-        {
-            return new GroupViewModel
-            {
-                GroupName = "Meetup",
-				Contacts = FromPlayerNames(new [] {
-					"Orlando Sanchez",
-					"Jairo Esquivel",
-					"Marvin Solano",
-					"Carlos Mendez",
-					"David",
-					"Fernando Valverde Chavarría",
-					"Steven",
-					"Aaron Cyrman",
-					"Eduardo Fonseca",
-					"Daniel Lacayo",
-					"Cesar Guillen Oreamuno",
-					"Ricardo Jimenez Guido",
-					"Oscar Ulloa Retana",
-					"Anthony Martinez",
-					"Guillermo Loaiza",
-					"Jia Ming Liou",
-					"Daniel Araya",
-					"Stuart Sanchez",
-					"Kenneth Barquero"
-				})
-            };
-        }
+		public async void Setup (User user)
+		{
+			IsRefreshing = true;
+
+			var games = await GameService.LoadGamesAsync(user.Id);
+
+			Game game;
+			if (games.Any())
+			{
+				game = games.LastOrDefault();
+				Load (game);
+
+				IsRefreshing = false;
+				return;
+			}
+			game = new Game ();
+			game.Owner = user.Id;
+			user.OwnedGames.Add (game.Id);
+
+			await GameService.SaveAsync (game);
+			await UserAuth.SaveUserAsync(user);
+
+			Load (game);
+
+			IsRefreshing = false;
+		}
     }
 }

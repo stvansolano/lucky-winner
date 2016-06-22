@@ -2,7 +2,7 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LuckyWinner.Views.GameView"
-						 x:Name="Root">
+             x:Name="Root">
 	<ContentView.Content>
 		<Grid BindingContext="{Binding Source={x:Reference Name=Root}, Path=ViewModel}">
 			<Grid.RowDefinitions>
@@ -10,19 +10,18 @@
 				 <RowDefinition Height="Auto" />
 				 <RowDefinition Height="Auto" />
 				 <RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Grid Grid.Row="0"
-						Padding="10,10,10,0">
+				  Padding="10,10,10,0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Label Grid.Column="0"
-							 Text="Nombre:" 
-							 HorizontalOptions="Start"
-							 VerticalTextAlignment="Center"
-							 />
+					   Text="Nombre:"
+					   HorizontalOptions="Start"
+					   VerticalTextAlignment="Center"
+					   />
 				<Entry x:Name="NewPlayerEntry"
 							 Grid.Column="1"
 							 HorizontalOptions="FillAndExpand"
@@ -31,9 +30,9 @@
 			</Grid>
 			
 			<StackLayout Grid.Row="1"
-									 BackgroundColor="Navy"
-									 Orientation="Horizontal"
-									 Padding="0,10,0,0">
+						 BackgroundColor="Navy"
+						 Orientation="Horizontal"
+						 Padding="0,10,0,0">
 				<StackLayout.Resources>
 					<ResourceDictionary>
 						<Style TargetType="Label">
@@ -43,8 +42,8 @@
 					</ResourceDictionary>
 				</StackLayout.Resources>
 				<Image HorizontalOptions="Start"
-							 Source="Prize.png"
-							 HeightRequest="25" WidthRequest="25" />
+					   Source="Prize.png"
+					   HeightRequest="25" WidthRequest="25" />
 				<Label HorizontalOptions="FillAndExpand"
 							 VerticalTextAlignment="Center"
 							 HeightRequest="40"
@@ -52,27 +51,12 @@
 						 />
 			</StackLayout>
 			<Grid Grid.Row="2">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-
-				<Label Grid.Column="0"
-							 Text="Lista actual:"
-							 VerticalTextAlignment="Center"
-						 />
-				<Picker x:Name="GroupPicker"
-								Grid.Column="1"
-								SelectedIndex="0"
-								Title="{Binding Path=SelectedGroupTitle}"
-							/>
-			</Grid>
-			<Grid Grid.Row="3">
 				<Grid Padding="10,5,0,0">
-						<ListView x:Name="PlayersSelector"
-											ItemsSource="{Binding Path=Players}"
-											SeparatorColor="Gray"
-											SelectedItem="{Binding Path=Winner, Mode=TwoWay}">
+					<ListView x:Name="PlayersSelector"
+							  ItemsSource="{Binding Path=Players}"
+							  SeparatorColor="Gray"
+							  IsRefreshing="{Binding Path=IsRefreshing}"
+							  SelectedItem="{Binding Path=Winner, Mode=TwoWay}">
 						<ListView.ItemTemplate>
 							<DataTemplate>
 								<ViewCell>
@@ -83,23 +67,23 @@
 										<StackLayout Orientation="Horizontal"
 																 HorizontalOptions="Start">
 											<Image IsVisible="{Binding Path=IsWinner}"
-														 Source="Prize.png"
-														 HeightRequest="25" WidthRequest="25" />
+												   Source="Prize.png"
+												   HeightRequest="25" WidthRequest="25" />
 
 											<Label Text="¡GANADOR!"
-															IsVisible="{Binding Path=IsWinner}"
-														 TextColor="Red"
-														 FontAttributes="Bold"
-														 VerticalTextAlignment="Center"
-														 />
+												   IsVisible="{Binding Path=IsWinner}"
+												   TextColor="Red"
+												   FontAttributes="Bold"
+												   VerticalTextAlignment="Center"
+												   />
 										
 											<Label Text="{Binding Path=PlayerName}"
-														 VerticalTextAlignment="Center"
-														 />
+												   VerticalTextAlignment="Center"
+												   />
 										</StackLayout>
-										<Button HorizontalOptions="End" 
-														Command="{Binding Path=DeleteCommand}"
-														Text="x" />
+										<Button HorizontalOptions="End"
+												Command="{Binding Path=DeleteCommand}"
+												Text="x" />
 									</Grid>
 								</ViewCell>
 							</DataTemplate>
@@ -107,7 +91,7 @@
 					</ListView>
 				</Grid>
 			</Grid>
-			<Grid Padding="2" Grid.Row="4">
+			<Grid Padding="2" Grid.Row="3">
 				<Button BackgroundColor="{StaticResource PrimaryColor}"
 						TextColor="{StaticResource PrimaryTextColor}"
 						Command="{Binding Path=PlayCommand}"

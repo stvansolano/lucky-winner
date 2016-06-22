@@ -28,6 +28,8 @@ namespace LuckyWinner.UITests
 		[Test]
 		public void AppLaunches ()
 		{
+			app.Tap (c => c.Button("Raffle"));
+
 			app.Screenshot ("First screen.");
 		}
 	}

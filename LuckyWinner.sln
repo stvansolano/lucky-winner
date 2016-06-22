@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyWinner.Droid", "LuckyWinner\LuckyWinner.Droid\LuckyWinner.Droid.csproj", "{80F544F1-1404-4C0A-9B32-CFAED8589F6A}"
 EndProject
@@ -14,6 +14,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyWinner.Windows", "LuckyWinner\LuckyWinner.Windows\LuckyWinner.Windows.csproj", "{F3565F15-3CE1-486A-914D-4AD65C1B8FA0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyWinner", "LuckyWinner\LuckyWinner\LuckyWinner.csproj", "{386220E3-C8DA-4A11-9B71-C3C15C92BB76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution files", "Solution files", "{1DEA315E-92DC-4159-B811-F6FEB91AD205}"
+	ProjectSection(SolutionItems) = preProject
+		Solution files\GettingStarted.Xamarin = Solution files\GettingStarted.Xamarin
+		InitialData.json = InitialData.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
